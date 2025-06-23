@@ -1,0 +1,19 @@
+{
+  "name": "mega-project",
+  "version": "1.0.0",
+  "description": "backend project from chai or code channel",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "author": "smit",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
