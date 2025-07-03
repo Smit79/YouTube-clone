@@ -51,7 +51,7 @@ const registerUser = asyncHandler( async (req, res) => {
     //console.log(req.files);
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    //const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
     let coverImageLocalPath;
     if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
@@ -59,19 +59,19 @@ const registerUser = asyncHandler( async (req, res) => {
     }
     
 
-    if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is required")
-    }
+    // if (!avatarLocalPath) {
+    //     throw new ApiError(400, "Avatar file is required")
+    // }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
-    if (!avatar) {
-        throw new ApiError(400, "Avatar file is required")
-    }
+    // if (!avatar) {
+    //     throw new ApiError(400, "Avatar file is required")
+    // }
     const user = await User.create({
         fullName,
-        avatar: avatar.url,
+        avatar: avatar?.url || "",
         coverImage: coverImage?.url || "",
         email, 
         password,
@@ -106,7 +106,7 @@ const loginUser = asyncHandler( async (req,res) => {
         throw new ApiError(400 , "username or email is required")
     }
 
-    const user = User.findOne({
+    const user = await User.findOne({
         $or : [{ username } , { email }]
     })
 
@@ -115,7 +115,7 @@ const loginUser = asyncHandler( async (req,res) => {
     }
 
     const isPasswordVaild = await user.isPasswordCorrect(password)
-    if (!isPasswordValid) {
+    if (!isPasswordVaild) {
         throw new ApiError(401, "Invalid user credentials")
     }
 
